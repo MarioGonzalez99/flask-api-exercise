@@ -15,9 +15,8 @@ class Login(Resource):
     def post(self):
         args = login_parser.parse_args()
         user = User.query.filter_by(username=args['username']).first()
-        if user:
-            isVerified = user.verify_password(args['password'])
-            if isVerified:
-                return {'token': 'simulated_token'}, 201
+        if user and user.verify_password(args['password']):
+            token = user.encode_auth_token(user.id)
+            return {'token': token}, 201
 
         abort_if_invalid_authentication()
