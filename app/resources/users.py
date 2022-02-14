@@ -23,7 +23,7 @@ user_parser.add_argument('username', required=True,
 user_parser.add_argument('password', required=True,
                          help='Password required', type=non_empty_string)
 user_parser.add_argument('admin', type=check_boolean)
-user_parser.add_argument('Authentication', location='headers')
+user_parser.add_argument('Authorization', location='headers')
 
 
 def abort_if_username_already_exists(username):
@@ -64,7 +64,7 @@ class Users(Resource):
     @marshal_with(user_fields)
     def post(self):
         args = user_parser.parse_args()
-        abort_if_creator_not_admin(args['Authentication'])
+        abort_if_creator_not_admin(args['Authorization'])
         username = args['username']
         abort_if_username_already_exists(username)
         isAdmin = check_if_admin(args['admin'])
