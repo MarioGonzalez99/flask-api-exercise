@@ -1,3 +1,4 @@
+from email import message
 from app.database.model import db, User
 from flask_restful import Resource, abort, fields, marshal_with, reqparse
 
@@ -31,7 +32,12 @@ def abort_if_username_already_exists(username):
         abort(409, message="A user with that username already exists.")
 
 
-def abort_if_creator_not_admin(token):
+def abort_if_creator_not_admin(bearer_token):
+    token_res = bearer_token.split()
+    if len(token_res) < 2:
+        abort(
+            400, message='Please, provide a valid bearer token in Authorization header. Ex: Bearer [token]')
+    token = token_res[1]
     user_id = User.decode_auth_token(token)
     try:
         user_id = int(user_id)
