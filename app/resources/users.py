@@ -24,8 +24,7 @@ def abort_if_username_already_exists(username):
 
 user_fields = {
     'id': fields.Integer,
-    'username': fields.String,
-    'password': fields.String
+    'username': fields.String
 }
 
 
