@@ -23,7 +23,8 @@ user_parser.add_argument('username', required=True,
 user_parser.add_argument('password', required=True,
                          help='Password required', type=non_empty_string)
 user_parser.add_argument('admin', type=check_boolean)
-user_parser.add_argument('Authorization', location='headers')
+user_parser.add_argument('Authorization', location='headers',
+                         required=True, help='Authorization token required')
 
 
 def abort_if_username_already_exists(username):
