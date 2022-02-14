@@ -1,4 +1,3 @@
-from email import message
 from app.database.model import db, User
 from flask_restful import Resource, abort, fields, marshal_with, reqparse
 
@@ -39,7 +38,7 @@ def abort_if_creator_not_admin(token):
     except:
         abort(401, message=user_id)
 
-    user = User.query.filter_by(id=user_id)
+    user = User.query.filter_by(id=user_id).first()
     if user is None or user.admin == False:
         abort(401, message='Not authorized to use this function')
 
