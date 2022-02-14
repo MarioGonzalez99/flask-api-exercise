@@ -17,6 +17,6 @@ class Login(Resource):
         user = User.query.filter_by(username=args['username']).first()
         if user and user.verify_password(args['password']):
             token = user.encode_auth_token(user.id)
-            return {'token': token.decode()}, 201
+            return {'token': token}, 201
 
         abort_if_invalid_authentication()
