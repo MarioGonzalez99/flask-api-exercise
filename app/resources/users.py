@@ -11,7 +11,7 @@ def non_empty_string(s):
 
 def check_boolean(s):
     s = s.lower()
-    if s != 'true' or s != 'false':
+    if s != 'true' and s != 'false':
         raise ValueError("Must be bool")
     return s
 
