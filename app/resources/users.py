@@ -9,11 +9,19 @@ def non_empty_string(s):
     return s
 
 
+def check_boolean(s):
+    s = s.lower()
+    if s != 'true' or s != 'false':
+        raise ValueError("Must be bool")
+    return s
+
+
 user_parser = reqparse.RequestParser()
 user_parser.add_argument('username', required=True,
                          help='Username required', type=non_empty_string)
 user_parser.add_argument('password', required=True,
                          help='Password required', type=non_empty_string)
+user_parser.add_argument('admin', type=check_boolean)
 
 
 def abort_if_username_already_exists(username):
@@ -39,7 +47,10 @@ class Users(Resource):
         args = user_parser.parse_args()
         username = args['username']
         abort_if_username_already_exists(username)
-        user = User(username=username)
+        isAdmin = False
+        if args['admin'] is not None and args['admin'] == "true":
+            isAdmin = True
+        user = User(username=username, admin=isAdmin)
         user.hash_password(args['password'])
         db.session.add(user)
         db.session.commit()
