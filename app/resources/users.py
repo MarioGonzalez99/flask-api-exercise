@@ -1,4 +1,3 @@
-from email import message
 from app.database.model import db, User
 from flask_restful import Resource, abort, fields, marshal_with, reqparse
 
